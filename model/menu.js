@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://127.0.0.1:27017/menu");
+mongoose.connect("mongodb+srv://sohambhoyar096:cjxVP0j0dsuNlc9W@ez-menu.kpxy1hv.mongodb.net/?retryWrites=true&w=majority&appName=EZ-Menu");
 
 const menuSchema = mongoose.Schema({
     name : String,
