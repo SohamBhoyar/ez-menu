@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gold Rush Café | Menu</title>
+  <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+
+  <header>
+    <h1> Café</h1>
+    <div class="slogan">Fast Food • Fresh Sips • Sweet Cravings</div>
+  </header>
+
+  <!-- Main Category Buttons -->
+  <div class="main-category-bar" id="mainCategoryBar"></div>
+
+  <!-- Filter Floating Button -->
+  <button class="filter-btn" id="filterBtn">☰</button>
+
+  <!-- Subcategory Filter Menu -->
+  <div class="filter-menu" id="filterMenu"></div>
+
+  <main>
+    <!-- This is where filtered items will appear -->
+    <div id="menuContainer" class="menu-grid"></div>
+    
+    <!-- Hidden template for menu items -->
+    <div id="menuTemplate" style="display:none;">
+      <% menu.forEach(item => { %>
+        <div class="menu-item" 
+             data-category="<%= item.category %>" 
+             data-subcategory="<%= item.subcategory %>">
+          <img src="<%= item.img || 'https://via.placeholder.com/300x200' %>" 
+               alt="<%= item.name %>" 
+               onerror="this.src='https://via.placeholder.com/300x200'">
+          <div class="item-details">
+            <h3><%= item.name %></h3>
+            <p><%= item.subcategory || item.category %></p>
+            <div class="item-price">
+              <span class="price">₹<%= item.price %></span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Gold Rush Café | Designed by Nana
+  </footer>
+
+<script>
+  // Extract menu items from the hidden template
+  const menuTemplate = document.getElementById('menuTemplate');
+  const menuItems = Array.from(menuTemplate.querySelectorAll('.menu-item')).map(item => {
+    return {
+      element: item.cloneNode(true), // Clone the complete DOM element
+      category: item.dataset.category,
+      subcategory: item.dataset.subcategory,
+      name: item.querySelector('h3').textContent,
+      price: parseFloat(item.querySelector('.price').textContent.replace('₹', '')),
+      image: item.querySelector('img').src
+    };
+  });
+
+  const mainCategoryBar = document.getElementById('mainCategoryBar');
+  const filterMenu = document.getElementById('filterMenu');
+  const filterBtn = document.getElementById('filterBtn');
+  const menuContainer = document.getElementById('menuContainer');
+
+  // Get unique main categories
+  const mainCategories = [...new Set(menuItems.map(i => i.category))];
+  let currentMainCategory = mainCategories[0];
+  let currentSubcategory = null;
+
+  function renderMainCategories() {
+    mainCategoryBar.innerHTML = '';
+    mainCategories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.textContent = cat;
+      btn.classList.toggle('active', cat === currentMainCategory);
+      btn.onclick = () => {
+        currentMainCategory = cat;
+        currentSubcategory = null;
+        renderMainCategories();
+        renderSubcategories();
+        renderMenu();
+      };
+      mainCategoryBar.appendChild(btn);
+    });
+  }
+
+  function renderSubcategories() {
+    filterMenu.innerHTML = '';
+    const subcats = [...new Set(menuItems
+      .filter(i => i.category === currentMainCategory && i.subcategory)
+      .map(i => i.subcategory)
+    )];
+    
+    subcats.forEach(sub => {
+      const btn = document.createElement('button');
+      btn.textContent = sub;
+      btn.classList.toggle('active', sub === currentSubcategory);
+      btn.onclick = () => {
+        currentSubcategory = sub;
+        renderSubcategories();
+        renderMenu();
+      };
+      filterMenu.appendChild(btn);
+    });
+
+    filterBtn.style.display = subcats.length ? 'block' : 'none';
+  }
+
+  function renderMenu() {
+    const filtered = menuItems.filter(i =>
+      i.category === currentMainCategory &&
+      (!currentSubcategory || i.subcategory === currentSubcategory)
+    );
+
+    menuContainer.className = 'menu-grid';
+    menuContainer.classList.add(currentMainCategory.includes('Combo') ? 'one-col' : 'two-col');
+    menuContainer.innerHTML = '';
+
+    filtered.forEach(item => {
+      menuContainer.appendChild(item.element);
+    });
+  }
+
+  filterBtn.onclick = () => {
+    filterMenu.classList.toggle('active');
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (menuItems.length > 0) {
+      renderMainCategories();
+      renderSubcategories();
+      renderMenu();
+    } else {
+      menuContainer.innerHTML = '<p class="no-items">No menu items available</p>';
+    }
+  });
+</script>
+</body>
+</html>

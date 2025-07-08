@@ -1,0 +1,206 @@
+:root {
+      --primary: #d99123;
+      --secondary: #ff6600;
+      --dark: #3e2c1c;
+      --light: #fff8e7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background-color: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      font-family: 'Brush Script MT', cursive;
+    }
+
+    .slogan {
+      font-size: 1rem;
+      color: var(--light);
+    }
+
+    .main-category-bar {
+        position: fixed;
+        background: var(--light);
+      margin-top: 100px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 20px;
+    }
+
+    .main-category-bar button {
+      padding: 8px 15px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .main-category-bar button.active {
+      background: var(--primary);
+    }
+
+    .filter-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .filter-menu {
+      position: fixed;
+      bottom: 160px;
+      right: 20px;
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+    }
+
+    .filter-menu.active {
+      display: block;
+    }
+
+    .filter-menu button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      background: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .filter-menu button:hover,
+    .filter-menu button.active {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    main {
+      padding: 20px;
+      padding-bottom: 100px;
+      padding-top: 200px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .menu-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .menu-grid.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* force 2 columns always */
+  gap: 20px;
+}
+
+@media (max-width: 480px) {
+  .menu-grid.two-col {
+    grid-template-columns: repeat(2, 1fr); /* keep 2 columns even on mobile */
+  }
+
+  .menu-grid.one-col {
+    grid-template-columns: 1fr; /* combo in single column */
+  }
+}
+
+
+    .menu-item {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .menu-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .item-details {
+      padding: 15px;
+    }
+
+    .item-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .item-details p {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .item-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-weight: bold;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .add-btn {
+      background: var(--primary);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 0.9rem;
+    }
